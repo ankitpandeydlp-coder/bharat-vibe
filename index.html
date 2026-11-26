@@ -1,1 +1,192 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101820">
+<title>Bharat Vibe - India's Social Network</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101820;color:white;font-family:Arial,sans-serif}
+header{position:sticky;top:0;background:#101820;padding:15px;border-bottom:1px solid #34404a;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.logo{font-size:24px;font-weight:bold;color:#ff9933}
+.logo span{color:#fff}
+button{border:0;cursor:pointer}
+.topbtn{background:#263541;color:white;border-radius:20px;padding:10px}
+nav{position:fixed;bottom:0;left:0;width:100%;background:#18232d;display:flex;justify-content:space-around;padding:13px 3px;border-top:1px solid #34404a;z-index:10}
+nav button{background:none;color:white;font-size:22px}
+nav small{display:block;font-size:10px}
+main{max-width:600px;margin:auto;padding-bottom:85px}
+.stories{display:flex;gap:15px;overflow-x:auto;padding:15px}
+.story{text-align:center;min-width:65px;font-size:12px}
+.circle{width:57px;height:57px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#ff9933,#e1306c,#138808);margin:auto auto 5px}
+.circle img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #101820}
+.post{background:#1b2833;margin:12px;border-radius:14px;overflow:hidden}
+.posthead{display:flex;align-items:center;padding:12px;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;background:#ff9933;display:grid;place-items:center;font-weight:bold}
+.username{font-weight:bold}
+.location{font-size:11px;color:#aebbc5;margin-top:4px}
+.postimg{width:100%;max-height:500px;object-fit:cover;display:block}
+.actions{padding:12px;display:flex;gap:18px}
+.actions button{font-size:23px;background:none;color:white}
+.liked{color:#ff405f!important}
+.caption{padding:0 13px 14px;font-size:14px}
+.muted{color:#aebbc5}
+.section{padding:18px}
+input,textarea{width:100%;padding:13px;border-radius:9px;border:1px solid #465561;background:#263541;color:white;margin:8px 0}
+.primary{background:#ff9933;color:#101820;padding:13px 20px;border-radius:9px;font-weight:bold;width:100%;margin:8px 0}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover}
+.card{background:#1b2833;padding:15px;border-radius:12px;margin:12px}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">🇮🇳 Bharat<span> Vibe</span></div>
+ <button class="topbtn" onclick="showPage('notifications')">♡</button>
+</header>
+
+<main>
+<section id="home">
+ <div class="stories">
+  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=12"></div>You</div>
+  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=5"></div>Rahul</div>
+  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=9"></div>Priya</div>
+  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=11"></div>Aman</div>
+  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=20"></div>Neha</div>
+ </div>
+ <div id="feed"></div>
+</section>
+
+<section id="create" class="section hidden">
+ <h2>＋ Create Post</h2>
+ <p class="muted">Share your moment with India!</p>
+ <input id="photo" type="file" accept="image/*">
+ <textarea id="caption" placeholder="Write a caption..."></textarea>
+ <button class="primary" onclick="addPost()">Share Post</button>
+ <div id="preview"></div>
+</section>
+
+<section id="reels" class="section hidden">
+ <h2>🎬 Bharat Reels</h2>
+ <div class="card">Short videos are coming soon!</div>
+ <p class="muted">Watch and share India's creativity.</p>
+</section>
+
+<section id="explore" class="section hidden">
+ <h2>🔍 Explore</h2>
+ <input id="search" placeholder="Search creators..." oninput="searchUsers()">
+ <div id="people"></div>
+ <div class="grid">
+ <img src="https://picsum.photos/300?1">
+ <img src="https://picsum.photos/300?2">
+ <img src="https://picsum.photos/300?3">
+ <img src="https://picsum.photos/300?4">
+ <img src="https://picsum.photos/300?5">
+ <img src="https://picsum.photos/300?6">
+ </div>
+</section>
+
+<section id="profile" class="section hidden">
+ <div style="text-align:center;padding:20px">
+ <div class="avatar" style="width:80px;height:80px;margin:auto;font-size:30px">B</div>
+ <h2>Bharat Vibe User</h2>
+ <p class="muted">@bharatvibe</p>
+ <div style="display:flex;justify-content:space-around">
+ <div><b id="postcount">0</b><br>Posts</div>
+ <div><b>0</b><br>Followers</div>
+ <div><b>0</b><br>Following</div>
+ </div>
+ </div>
+ <h3>Your Posts</h3>
+ <div id="mygrid" class="grid"></div>
+</section>
+
+<section id="notifications" class="section hidden">
+ <h2>♡ Notifications</h2>
+ <div class="card">Welcome to Bharat Vibe 🇮🇳</div>
+</section>
+
+<section id="chat" class="section hidden">
+ <h2>💬 Messages</h2>
+ <div class="card">Messaging feature is coming soon!</div>
+</section>
+</main>
+
+<nav>
+ <button onclick="showPage('home')">⌂<small>Home</small></button>
+ <button onclick="showPage('explore')">⌕<small>Explore</small></button>
+ <button onclick="showPage('create')">＋<small>Create</small></button>
+ <button onclick="showPage('reels')">▷<small>Reels</small></button>
+ <button onclick="showPage('profile')">◉<small>Profile</small></button>
+</nav>
+
+<script>
+let posts=[];
+try{posts=JSON.parse(localStorage.getItem('bvposts')||'[]')}catch(e){posts=[]}
+
+const samples=[
+ {user:'Rahul Sharma',img:'https://picsum.photos/id/1015/700/600',caption:'Beautiful India 🇮🇳 #BharatVibe'},
+ {user:'Priya Singh',img:'https://picsum.photos/id/1011/700/600',caption:'Nature is beautiful ❤️'},
+ {user:'Aman Verma',img:'https://picsum.photos/id/1016/700/600',caption:'Travel and explore!'}
+];
+
+function save(){localStorage.setItem('bvposts',JSON.stringify(posts))}
+function render(){
+ let all=[...posts,...samples.map((p,i)=>({...p,id:'sample'+i,likes:0}))];
+ document.getElementById('feed').innerHTML=all.map(p=>`
+ <article class="post">
+ <div class="posthead"><div class="avatar">${p.user[0]}</div>
+ <div><div class="username">${p.user}</div><div class="location">India 🇮🇳</div></div></div>
+ <img class="postimg" src="${p.img}">
+ <div class="actions">
+ <button class="${p.liked?'liked':''}" onclick="likePost('${p.id}')">♥</button>
+ <button onclick="commentPost()">♡</button>
+ <button onclick="sharePost()">➤</button>
+ </div>
+ <div class="caption"><b>${p.user}</b> ${escapeHTML(p.caption||'')}
+ <div class="muted" style="margin-top:8px">${p.likes||0} likes</div></div>
+ </article>`).join('');
+ document.getElementById('postcount').textContent=posts.length;
+ document.getElementById('mygrid').innerHTML=posts.map(p=>`<img src="${p.img}">`).join('');
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showPage(id){
+ document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+ window.scrollTo(0,0);
+}
+function likePost(id){
+ let p=posts.find(x=>x.id===id);
+ if(p){p.liked=!p.liked;p.likes=(p.likes||0)+(p.liked?1:-1);save();render()}
+ else alert('Demo post: Like feature works on your own posts.');
+}
+function commentPost(){let c=prompt('Write your comment');if(c)alert('Comment saved for this demo session!')}
+function sharePost(){if(navigator.share)navigator.share({title:'Bharat Vibe',text:'Join Bharat Vibe 🇮🇳'});else alert('Bharat Vibe 🇮🇳')}
+function addPost(){
+ let f=document.getElementById('photo').files[0];
+ if(!f)return alert('Please select a photo first.');
+ if(f.size>2*1024*1024)return alert('Please choose an image under 2 MB.');
+ let reader=new FileReader();
+ reader.onload=()=>{
+ posts.unshift({id:Date.now().toString(),user:'Bharat Vibe User',img:reader.result,caption:document.getElementById('caption').value,likes:0});
+ try{save()}catch(e){alert('Phone storage is full. Try a smaller photo.');return}
+ document.getElementById('photo').value='';
+ document.getElementById('caption').value='';
+ render();showPage('home');
+ };
+ reader.readAsDataURL(f);
+}
+let names=['Rahul Sharma','Priya Singh','Aman Verma','Neha Gupta'];
+function searchUsers(){
+ let q=document.getElementById('search').value.toLowerCase();
+ document.getElementById('people').innerHTML=names.filter(n=>n.toLowerCase().includes(q)).map(n=>`<div class="card">${n} 🇮🇳 <button class="topbtn">Follow</button></div>`).join('');
+}
+render();searchUsers();
+</script>
+</body>
+</html>
+
