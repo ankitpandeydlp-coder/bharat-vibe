@@ -3,190 +3,193 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101820">
-<title>Bharat Vibe - India's Social Network</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Vibe</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101820;color:white;font-family:Arial,sans-serif}
-header{position:sticky;top:0;background:#101820;padding:15px;border-bottom:1px solid #34404a;display:flex;justify-content:space-between;align-items:center;z-index:5}
-.logo{font-size:24px;font-weight:bold;color:#ff9933}
-.logo span{color:#fff}
-button{border:0;cursor:pointer}
-.topbtn{background:#263541;color:white;border-radius:20px;padding:10px}
-nav{position:fixed;bottom:0;left:0;width:100%;background:#18232d;display:flex;justify-content:space-around;padding:13px 3px;border-top:1px solid #34404a;z-index:10}
-nav button{background:none;color:white;font-size:22px}
-nav small{display:block;font-size:10px}
-main{max-width:600px;margin:auto;padding-bottom:85px}
-.stories{display:flex;gap:15px;overflow-x:auto;padding:15px}
-.story{text-align:center;min-width:65px;font-size:12px}
-.circle{width:57px;height:57px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#ff9933,#e1306c,#138808);margin:auto auto 5px}
-.circle img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #101820}
-.post{background:#1b2833;margin:12px;border-radius:14px;overflow:hidden}
-.posthead{display:flex;align-items:center;padding:12px;gap:10px}
-.avatar{width:38px;height:38px;border-radius:50%;background:#ff9933;display:grid;place-items:center;font-weight:bold}
-.username{font-weight:bold}
-.location{font-size:11px;color:#aebbc5;margin-top:4px}
-.postimg{width:100%;max-height:500px;object-fit:cover;display:block}
-.actions{padding:12px;display:flex;gap:18px}
-.actions button{font-size:23px;background:none;color:white}
-.liked{color:#ff405f!important}
-.caption{padding:0 13px 14px;font-size:14px}
-.muted{color:#aebbc5}
-.section{padding:18px}
-input,textarea{width:100%;padding:13px;border-radius:9px;border:1px solid #465561;background:#263541;color:white;margin:8px 0}
-.primary{background:#ff9933;color:#101820;padding:13px 20px;border-radius:9px;font-weight:bold;width:100%;margin:8px 0}
-.hidden{display:none!important}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
-.grid img{width:100%;aspect-ratio:1;object-fit:cover}
-.card{background:#1b2833;padding:15px;border-radius:12px;margin:12px}
+body{margin:0;background:#080d1c;color:white;font-family:Arial,sans-serif}
+.container{max-width:440px;margin:35px auto;padding:20px}
+.logo{text-align:center;font-size:32px;font-weight:bold;color:#ff4d8d;margin:25px 0}
+.subtitle{text-align:center;color:#aaa;margin-bottom:30px}
+.card{background:#151d32;border:1px solid #293653;border-radius:18px;padding:22px}
+h2{text-align:center;margin-top:5px}
+input{width:100%;padding:15px;margin:10px 0;border:1px solid #46516b;border-radius:10px;background:#0c1427;color:white;font-size:16px}
+button{width:100%;padding:15px;border:0;border-radius:10px;background:linear-gradient(90deg,#ff416c,#ff8a3d);color:white;font-size:16px;font-weight:bold;margin-top:12px}
+button:disabled{opacity:.5}
+.note{text-align:center;color:#aaa;font-size:13px;line-height:1.6}
+#message{text-align:center;color:#ffd166;margin-top:15px;font-size:14px}
+#app{display:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:15px}
+.top strong{font-size:24px;color:#ff5488}
+.story{display:flex;gap:12px;overflow:auto;padding:15px}
+.story div{min-width:65px;text-align:center;font-size:12px;color:#ddd}
+.circle{width:58px;height:58px;border-radius:50%;border:3px solid #ff5488;background:#293653;margin:auto auto 6px}
+.post{background:#151d32;margin:12px;border-radius:15px;padding:15px}
+.post img{width:100%;border-radius:12px;margin-top:10px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#151d32;display:flex;justify-content:space-around;padding:17px}
+.nav span{font-size:22px}
 </style>
 </head>
+
 <body>
+<div class="container" id="login">
+  <div class="logo">🇮🇳 Bharat Vibe</div>
+  <p class="subtitle">Connect • Share • Celebrate India</p>
 
-<header>
- <div class="logo">🇮🇳 Bharat<span> Vibe</span></div>
- <button class="topbtn" onclick="showPage('notifications')">♡</button>
-</header>
+  <div class="card">
+    <h2>Welcome to Bharat Vibe</h2>
+    <p class="note">Login with your mobile number</p>
 
-<main>
-<section id="home">
- <div class="stories">
-  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=12"></div>You</div>
-  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=5"></div>Rahul</div>
-  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=9"></div>Priya</div>
-  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=11"></div>Aman</div>
-  <div class="story"><div class="circle"><img src="https://i.pravatar.cc/100?img=20"></div>Neha</div>
- </div>
- <div id="feed"></div>
-</section>
+    <div id="phone-area">
+      <input id="phone" type="tel" placeholder="Mobile number (10 digits)" maxlength="10">
+      <div id="recaptcha-container"></div>
+      <button id="sendBtn" onclick="sendOTP()">Send OTP</button>
+    </div>
 
-<section id="create" class="section hidden">
- <h2>＋ Create Post</h2>
- <p class="muted">Share your moment with India!</p>
- <input id="photo" type="file" accept="image/*">
- <textarea id="caption" placeholder="Write a caption..."></textarea>
- <button class="primary" onclick="addPost()">Share Post</button>
- <div id="preview"></div>
-</section>
+    <div id="otp-area" style="display:none">
+      <input id="otp" type="text" inputmode="numeric" placeholder="Enter 6-digit OTP" maxlength="6">
+      <button onclick="verifyOTP()">Verify OTP</button>
+      <button onclick="backToPhone()" style="background:#34415d">Change number</button>
+    </div>
 
-<section id="reels" class="section hidden">
- <h2>🎬 Bharat Reels</h2>
- <div class="card">Short videos are coming soon!</div>
- <p class="muted">Watch and share India's creativity.</p>
-</section>
+    <div id="message"></div>
+    <p class="note">By continuing, you agree to use Bharat Vibe responsibly.</p>
+  </div>
+</div>
 
-<section id="explore" class="section hidden">
- <h2>🔍 Explore</h2>
- <input id="search" placeholder="Search creators..." oninput="searchUsers()">
- <div id="people"></div>
- <div class="grid">
- <img src="https://picsum.photos/300?1">
- <img src="https://picsum.photos/300?2">
- <img src="https://picsum.photos/300?3">
- <img src="https://picsum.photos/300?4">
- <img src="https://picsum.photos/300?5">
- <img src="https://picsum.photos/300?6">
- </div>
-</section>
+<div id="app">
+  <div class="top">
+    <strong>Bharat Vibe 🇮🇳</strong>
+    <button style="width:auto;margin:0;padding:10px" onclick="logout()">Logout</button>
+  </div>
 
-<section id="profile" class="section hidden">
- <div style="text-align:center;padding:20px">
- <div class="avatar" style="width:80px;height:80px;margin:auto;font-size:30px">B</div>
- <h2>Bharat Vibe User</h2>
- <p class="muted">@bharatvibe</p>
- <div style="display:flex;justify-content:space-around">
- <div><b id="postcount">0</b><br>Posts</div>
- <div><b>0</b><br>Followers</div>
- <div><b>0</b><br>Following</div>
- </div>
- </div>
- <h3>Your Posts</h3>
- <div id="mygrid" class="grid"></div>
-</section>
+  <div class="story">
+    <div><div class="circle"></div>Your Story</div>
+    <div><div class="circle"></div>Friends</div>
+    <div><div class="circle"></div>India</div>
+    <div><div class="circle"></div>Creators</div>
+  </div>
 
-<section id="notifications" class="section hidden">
- <h2>♡ Notifications</h2>
- <div class="card">Welcome to Bharat Vibe 🇮🇳</div>
-</section>
+  <div class="post">
+    <b>🇮🇳 Bharat Vibe Community</b>
+    <p>Welcome to Bharat Vibe! Your Indian social community starts here.</p>
+    <p class="note">Your account is logged in successfully.</p>
+  </div>
 
-<section id="chat" class="section hidden">
- <h2>💬 Messages</h2>
- <div class="card">Messaging feature is coming soon!</div>
-</section>
-</main>
+  <div class="post">
+    <h3>✨ Explore Bharat Vibe</h3>
+    <p>Share your moments, connect with people and celebrate India.</p>
+  </div>
 
-<nav>
- <button onclick="showPage('home')">⌂<small>Home</small></button>
- <button onclick="showPage('explore')">⌕<small>Explore</small></button>
- <button onclick="showPage('create')">＋<small>Create</small></button>
- <button onclick="showPage('reels')">▷<small>Reels</small></button>
- <button onclick="showPage('profile')">◉<small>Profile</small></button>
-</nav>
+  <div class="nav">
+    <span>🏠</span><span>🔍</span><span>➕</span><span>🎬</span><span>👤</span>
+  </div>
+</div>
 
 <script>
-let posts=[];
-try{posts=JSON.parse(localStorage.getItem('bvposts')||'[]')}catch(e){posts=[]}
+const firebaseConfig = {
+  apiKey: "AIzaSyBsQhyuKDwrBA2W88-61Vg9-y8Hw2hqtmk",
+  authDomain: "bharat-vibe.firebaseapp.com",
+  projectId: "bharat-vibe",
+  storageBucket: "bharat-vibe.firebasestorage.app",
+  messagingSenderId: "359928047736",
+  appId: "1:359928047736:web:1c7d7975e295651483e58d"
+};
 
-const samples=[
- {user:'Rahul Sharma',img:'https://picsum.photos/id/1015/700/600',caption:'Beautiful India 🇮🇳 #BharatVibe'},
- {user:'Priya Singh',img:'https://picsum.photos/id/1011/700/600',caption:'Nature is beautiful ❤️'},
- {user:'Aman Verma',img:'https://picsum.photos/id/1016/700/600',caption:'Travel and explore!'}
-];
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-function save(){localStorage.setItem('bvposts',JSON.stringify(posts))}
-function render(){
- let all=[...posts,...samples.map((p,i)=>({...p,id:'sample'+i,likes:0}))];
- document.getElementById('feed').innerHTML=all.map(p=>`
- <article class="post">
- <div class="posthead"><div class="avatar">${p.user[0]}</div>
- <div><div class="username">${p.user}</div><div class="location">India 🇮🇳</div></div></div>
- <img class="postimg" src="${p.img}">
- <div class="actions">
- <button class="${p.liked?'liked':''}" onclick="likePost('${p.id}')">♥</button>
- <button onclick="commentPost()">♡</button>
- <button onclick="sharePost()">➤</button>
- </div>
- <div class="caption"><b>${p.user}</b> ${escapeHTML(p.caption||'')}
- <div class="muted" style="margin-top:8px">${p.likes||0} likes</div></div>
- </article>`).join('');
- document.getElementById('postcount').textContent=posts.length;
- document.getElementById('mygrid').innerHTML=posts.map(p=>`<img src="${p.img}">`).join('');
+let confirmationResult = null;
+let recaptchaVerifier = null;
+
+function showMessage(text){
+  document.getElementById("message").textContent = text;
 }
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function showPage(id){
- document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
- window.scrollTo(0,0);
+
+function setupRecaptcha(){
+  if(recaptchaVerifier) return;
+  recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    "recaptcha-container",
+    {size:"normal"},
+    auth
+  );
+  recaptchaVerifier.render();
 }
-function likePost(id){
- let p=posts.find(x=>x.id===id);
- if(p){p.liked=!p.liked;p.likes=(p.likes||0)+(p.liked?1:-1);save();render()}
- else alert('Demo post: Like feature works on your own posts.');
+
+async function sendOTP(){
+  const number = document.getElementById("phone").value.trim();
+
+  if(!/^[0-9]{10}$/.test(number)){
+    showMessage("Please enter a valid 10-digit mobile number.");
+    return;
+  }
+
+  const btn = document.getElementById("sendBtn");
+  btn.disabled = true;
+  showMessage("Please complete the verification.");
+
+  try{
+    setupRecaptcha();
+    await recaptchaVerifier.render();
+    confirmationResult = await auth.signInWithPhoneNumber("+91" + number, recaptchaVerifier);
+
+    document.getElementById("phone-area").style.display = "none";
+    document.getElementById("otp-area").style.display = "block";
+    showMessage("OTP sent. Please check your phone.");
+  }catch(error){
+    showMessage(error.message || "Could not send OTP. Please try again.");
+    if(recaptchaVerifier){
+      recaptchaVerifier.clear();
+      recaptchaVerifier = null;
+      document.getElementById("recaptcha-container").innerHTML = "";
+    }
+  }
+  btn.disabled = false;
 }
-function commentPost(){let c=prompt('Write your comment');if(c)alert('Comment saved for this demo session!')}
-function sharePost(){if(navigator.share)navigator.share({title:'Bharat Vibe',text:'Join Bharat Vibe 🇮🇳'});else alert('Bharat Vibe 🇮🇳')}
-function addPost(){
- let f=document.getElementById('photo').files[0];
- if(!f)return alert('Please select a photo first.');
- if(f.size>2*1024*1024)return alert('Please choose an image under 2 MB.');
- let reader=new FileReader();
- reader.onload=()=>{
- posts.unshift({id:Date.now().toString(),user:'Bharat Vibe User',img:reader.result,caption:document.getElementById('caption').value,likes:0});
- try{save()}catch(e){alert('Phone storage is full. Try a smaller photo.');return}
- document.getElementById('photo').value='';
- document.getElementById('caption').value='';
- render();showPage('home');
- };
- reader.readAsDataURL(f);
+
+async function verifyOTP(){
+  const code = document.getElementById("otp").value.trim();
+
+  if(!/^[0-9]{6}$/.test(code)){
+    showMessage("Please enter the 6-digit OTP.");
+    return;
+  }
+
+  try{
+    await confirmationResult.confirm(code);
+    showApp();
+  }catch(error){
+    showMessage("Incorrect OTP or verification failed. Please try again.");
+  }
 }
-let names=['Rahul Sharma','Priya Singh','Aman Verma','Neha Gupta'];
-function searchUsers(){
- let q=document.getElementById('search').value.toLowerCase();
- document.getElementById('people').innerHTML=names.filter(n=>n.toLowerCase().includes(q)).map(n=>`<div class="card">${n} 🇮🇳 <button class="topbtn">Follow</button></div>`).join('');
+
+function showApp(){
+  document.getElementById("login").style.display = "none";
+  document.getElementById("app").style.display = "block";
 }
-render();searchUsers();
+
+function backToPhone(){
+  document.getElementById("otp-area").style.display = "none";
+  document.getElementById("phone-area").style.display = "block";
+  document.getElementById("otp").value = "";
+  showMessage("");
+}
+
+async function logout(){
+  await auth.signOut();
+  document.getElementById("app").style.display = "none";
+  document.getElementById("login").style.display = "block";
+  backToPhone();
+}
+
+auth.onAuthStateChanged(user => {
+  if(user) showApp();
+});
+
 </script>
 </body>
 </html>
-
